@@ -15,17 +15,59 @@ function App() {
 
   });
 
-  const handelChangeUppercase = () => {
+  const [handelText, sethandelText] = useState("");
+  const [copied, setCopied] = useState(false);
 
-  }
+  const handelChangeUppercase = () => {
+    setPassword({
+      ...password,
+      uppercase: !password.uppercase,
+    });
+  };
+
+  const handelChangeLowercase = () => {
+    setPassword({
+      ...password,
+      lowercase: !password.lowercase,
+    });
+  };
+
+  const handelChangeNumbers = () => {
+    setPassword({
+      ...password,
+      numbers: !password.numbers,
+    })
+  };
+
+  const handelChangeSymbols = () => {
+    sethandelText({
+      ...password,
+      symbols: !password.symbols,
+    });
+  };
+
+  const setPasswordLength = (val) => {
+    setPassword({
+      ...password,
+      length: val,
+    });
+  };
 
   return (
     <div className="wrapper">
       <div className="container wrapper-box">
         <h2>Password Generator</h2>
         <div className="passwrod-box">
-          <input type="text" value="" placeholder="" autoComplete="off"/>
-          <button className="copy-button">Copy text</button>
+          <input type="text" value={handelText} onChange={(e)=> sethandelText(e.target.value)}/>
+          <button className="copy-button" onClick={()=>{
+            if(handelText.legth > 0){
+              navigator.clipboard.writeTest(handelText);
+              setCopied(true);
+              setInvernal(()=>{
+                setCopied(false);
+              }, 2000)
+            }
+          }}>{copied ? 'Copied!' : 'Copy text'}</button>
         </div>
         <br />
         <div className="word-criteria__box">
@@ -33,7 +75,7 @@ function App() {
             <label>Password length</label>
           </div>
           <div>
-            <input type="number" value=""/>
+            <input type="number" value={handelText} onChange={(e) => setPasswordLength(e.target.value)}/>
           </div>
         </div>
         <div className="word-criteria__box">
@@ -41,7 +83,7 @@ function App() {
             <label>Include uppercase letters</label>
           </div>
           <div>
-          <Checkbox value={password.uppercase} onChange={handleChangeUppercase}/>
+          <Checkbox value={password.uppercase} onChange={handelChangeUppercase}/>
           </div>
         </div>
         <div className="word-criteria__box">
@@ -49,7 +91,7 @@ function App() {
             <label>Include lowercase letters</label>
           </div>
           <div>
-          <Checkbox value={password.lowercase} onChange={handleChangeLowercase}/>
+          <Checkbox value={password.lowercase} onChange={handelChangeLowercase}/>
           </div>
         </div>
         <div className="word-criteria__box">
@@ -57,7 +99,7 @@ function App() {
             <label>Include Numbers</label>
           </div>
           <div>
-          <Checkbox value={password.numbers} onChange={handleChangeNumbers}/>
+          <Checkbox value={password.numbers} onChange={handelChangeNumbers}/>
           </div>
         </div>
         <div className="word-criteria__box">
@@ -65,7 +107,7 @@ function App() {
             <label>Include symbols</label>
           </div>
           <div>
-          <Checkbox value={password.symbols} onChange={handleChangeSymbols}/>
+          <Checkbox value={password.symbols} onChange={handelChangeSymbols}/>
           </div>
         </div>
         <div>
@@ -76,4 +118,4 @@ function App() {
   );
 }
 
-export default App;
+export default App
